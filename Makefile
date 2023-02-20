@@ -22,7 +22,7 @@ build:
 install:
 	make kill
 	make up
-	./vendor/bin/sail composer install
+	./vendor/bin/sail composer update
 	./vendor/bin/sail npm install
 	./vendor/bin/sail npm run build
 

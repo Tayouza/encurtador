@@ -15,10 +15,10 @@
 <body class="antialiased bg-gray-100">
     <main class="flex flex-col justify-center items-center h-[100vh] w-full">
         <form action="{{route('store-bitlink')}}" method="POST"
-            class="flex flex-col justify-center items-center gap-2 w-1/2 h-1/2 rounded-lg p-8 neumorphism-shadow">
+            class="flex flex-col justify-center items-center gap-2 rounded-lg p-8 neumorphism-shadow sm:w-1/2 sm:h-1/2">
             <p class="pb-8 text-4xl font-mono">Encurtador</p>
             @csrf
-            <div class="flex flex-col items-center gap-4 w-1/2">
+            <div class="flex flex-col items-center gap-4 sm:w-1/2">
                 <label for="url" class="w-full text-xs @error('url') text-red-500 @enderror">
                     <input type="text" name="url" placeholder="Https://"
                         class="w-full border border-gray-200 mb-2 px-6 p-4 @error('url')border-red-500 text-red-500 @enderror rounded shadow-lg focus:outline-0 focus:border-transparent focus:shadow-xs">
