@@ -16,7 +16,12 @@ class BitlinkController extends Controller
     public function index(string $url)
     {
         $bitlink = Bitlink::where('new_url', $url)->first();
-        return $bitlink?->main_url !== null ? redirect()->to($bitlink->main_url) : view('404');
+        return $bitlink?->main_url !== null ?
+            redirect()->to($bitlink->main_url) :
+            view('error', ['error' => (object) [
+                'code'    => 404,
+                'message' => 'Page not found' 
+            ]]);
     }
 
     /**
@@ -26,7 +31,7 @@ class BitlinkController extends Controller
      */
     public function create()
     {
-        return view('welcome');
+        return view('bit');
     }
 
     /**
@@ -40,10 +45,17 @@ class BitlinkController extends Controller
         $request->validate(['url' => 'required|url']);
         $url = $request->url;
         $newUrl = Str::random(8);
-        Bitlink::create([
-            'main_url' => $url,
-            'new_url' => $newUrl,
-        ]);
+        try{
+            Bitlink::create([
+                'main_url' => $url,
+                'new_url' => $newUrl,
+            ]);
+        }catch(\Exception $e){
+            return view('error', ['error' => (object) [
+                'code'    => 500,
+                'message' => 'Internal server error' 
+            ]]);
+        }
         return redirect()->route('create-bitlink')->with('newUrl', $newUrl);
     }
 
