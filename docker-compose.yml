@@ -10,18 +10,18 @@ services:
         image: sail-8.2/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
+        expose:
+            - 80
         ports:
-            - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            VIRTUAL_HOST: 'tayouza.dev/encurtador'
+            LETSENCRYPT_HOST: 'tayouza.dev'
+            LETSENCRYPT_EMAIL: 'tayouzadev@gmail.com'
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - web
         depends_on:
             - mysql
             - mailpit
@@ -40,7 +40,7 @@ services:
             - 'sail-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
-            - sail
+            - web
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
@@ -51,10 +51,12 @@ services:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
-            - sail
+              - web
 volumes:
-    sail-mysql:
-        driver: local
+  sail-mysql:
+    driver: local
 networks:
-    sail:
-        driver: bridge
+  web:
+    external: true
+  sail:
+    driver: bridge

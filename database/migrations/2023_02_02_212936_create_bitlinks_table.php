@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bitlinks', function (Blueprint $table) {
             $table->id();
-            $table->string('main_url');
+            $table->text('main_url');
             $table->string('new_url');
             $table->timestamps();
         });
