@@ -9,11 +9,10 @@
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="antialiased bg-gray-100">
-    @yield('content')
+<body class="antialiased bg-zinc-200">
+    {{ $slot }}
 </body>
 
 </html>

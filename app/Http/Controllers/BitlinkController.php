@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use App\Models\Bitlink;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BitlinkController extends Controller
 {    
@@ -51,9 +52,10 @@ class BitlinkController extends Controller
                 'new_url' => $newUrl,
             ]);
         }catch(\Exception $e){
+            Log::error($e->getMessage());
             return view('error', ['error' => (object) [
                 'code'    => 500,
-                'message' => 'Internal server error' 
+                'message' => 'Internal server error'
             ]]);
         }
         return redirect()->route('create-bitlink')->with('newUrl', $newUrl);
