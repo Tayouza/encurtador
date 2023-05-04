@@ -43,9 +43,13 @@ class BitlinkController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['url' => 'required|url']);
+        $this->validate($request, [
+            'url' => 'required|url',
+            'path' => 'nullable|unique:bitlinks,new_url|alpha_dash'
+        ], customAttributes: ['path' => 'caminho']);
+
         $url = $request->url;
-        $newUrl = Str::random(8);
+        $newUrl = $request->input('path') ?? Str::random(8);
         try{
             Bitlink::create([
                 'main_url' => $url,

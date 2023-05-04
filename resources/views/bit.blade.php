@@ -5,9 +5,17 @@
             <p class="pb-8 text-4xl font-mono">Encurtador</p>
             @csrf
             <div class="flex flex-col items-center gap-4 sm:w-1/2">
+                <label for="path" class="w-full text-xs @error('path') text-red-500 @enderror">
+                    <input type="text" name="path" placeholder="caminho (opcional)"
+                    class="w-full border border-gray-200 mb-2 px-6 p-4 @error('url')border-red-500 text-red-500 @enderror rounded shadow-lg focus:outline-0 focus:border-transparent focus:shadow-xs">
+                    @error('path')
+                    {{$message}}
+                    @enderror
+                </label>
                 <label for="url" class="w-full text-xs @error('url') text-red-500 @enderror">
                     <input type="text" name="url" placeholder="Https://"
-                        class="w-full border border-gray-200 mb-2 px-6 p-4 @error('url')border-red-500 text-red-500 @enderror rounded shadow-lg focus:outline-0 focus:border-transparent focus:shadow-xs">
+                    class="w-full border border-gray-200 mb-2 px-6 p-4 @error('url')border-red-500 text-red-500 @enderror rounded shadow-lg focus:outline-0 focus:border-transparent focus:shadow-xs"
+                    required>
                     @error('url')
                     {{$message}}
                     @enderror
@@ -23,7 +31,7 @@
                         <x-icons.clip class="w-4 fill-gray-500"/>
                         <span id="txtClip" class="text-xs text-gray-500"></span>
                     </div>
-                    <a class="text-3xl font-light text-blue-500 p-8 hover:underline"
+                    <a class="text-2xl font-light text-blue-500 p-8 hover:underline"
                         href="{{env('APP_URL')}}/{{session('newUrl')}}" target="_blank">
                         <span id="url">{{env('APP_URL')}}/{{session('newUrl')}}</span>
                     </a>

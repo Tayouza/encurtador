@@ -10,9 +10,8 @@ services:
         image: sail-8.2/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
-        expose:
-            - 80
         ports:
+            - '${APP_PORT:-80}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             VIRTUAL_HOST: 'tayouza.dev/encurtador'
@@ -21,7 +20,7 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - web
+            - sail
         depends_on:
             - mysql
             - mailpit
@@ -40,7 +39,7 @@ services:
             - 'sail-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
-            - web
+            - sail
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
@@ -51,12 +50,10 @@ services:
             - '${FORWARD_MAILPIT_PORT:-1025}:1025'
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
-              - web
+              - sail
 volumes:
   sail-mysql:
     driver: local
 networks:
-  web:
-    external: true
   sail:
     driver: bridge
