@@ -46,7 +46,7 @@ class BitlinkController extends Controller
         $this->validate($request, [
             'url' => 'required|url',
             'path' => 'nullable|unique:bitlinks,new_url|string'
-        ], customAttributes: ['path' => 'caminho']);
+        ], attributes: ['path' => 'caminho']);
         $url = $request->url;
         $newUrl = $request->input('path') ? str()->slug($request->input('path')) : Str::random(8);
         try{
