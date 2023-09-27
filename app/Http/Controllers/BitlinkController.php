@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class BitlinkController extends Controller
 {    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return redirect
-     */
     public function index(string $url)
     {
         $bitlink = Bitlink::where('new_url', $url)->first();
@@ -25,22 +20,11 @@ class BitlinkController extends Controller
             ]]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return view
-     */
     public function create()
     {
         return view('bit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -64,48 +48,10 @@ class BitlinkController extends Controller
         return redirect()->route('create-bitlink')->with('newUrl', $newUrl);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function list()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('list-links', [
+            'links' => Bitlink::all()
+        ]);
     }
 }
